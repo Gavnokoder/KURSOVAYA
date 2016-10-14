@@ -17,17 +17,19 @@ namespace WindowsFormsApplication1
         int angle = 1;
         string name = "";
         ushort[,] dot = new ushort[17, 6];
-        List<PictureBox> area = new List<PictureBox>(50);
+        List<PictureBox> area = new List<PictureBox>(50); // КОЛЛЕКЦИЯ
 
         public Form1()
         {
             InitializeComponent();
            
             this.MouseWheel += new MouseEventHandler(MouseWheelHandler);
+           //// К О С Т И Н А      Х У Й Н Я///////////////////// 
             //PictureBox[] area = new PictureBox[25];
            // for (int i = 0; i < 25; i++) area[i] = new PictureBox();
+            /////////////////////////////////////////////
 
-            for (int i = 0; i < 50; i++)
+            for (int i = 0; i < 50; i++) // КОЛЛЕКЦИЯ
             {
                 PictureBox area = new PictureBox();
                 area.Name = i.ToString();
@@ -35,8 +37,10 @@ namespace WindowsFormsApplication1
             }
         }
 
-       // private PictureBox[] area;
+       // private PictureBox[] area; // К О С Т И Н А     Х У Й Н Я 
 
+
+        // ЗДЕСЬ ВСЕ НОРМ РАБОТАЕТ /////////////////
         private void Form1_Shown(Object sender, EventArgs e)
         {
             // строим точки
@@ -56,6 +60,7 @@ namespace WindowsFormsApplication1
 
         }
 
+        // ЗДЕСЬ ВСЕ НОРМ РАБОТАЕТ /////////////////
         private void Form1_Load(object sender, EventArgs e)
         {
             // Заполняем координаты x, y для каждой точки 
@@ -77,6 +82,7 @@ namespace WindowsFormsApplication1
             }
         }
 
+        // ЗДЕСЬ ВСЕ НОРМ РАБОТАЕТ /////////////////
         private void listBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
             angle = 1;
@@ -150,6 +156,7 @@ namespace WindowsFormsApplication1
             }
         }
 
+        // ЗДЕСЬ ВСЕ НОРМ РАБОТАЕТ /////////////////
         private void MouseWheelHandler(object sender, System.Windows.Forms.MouseEventArgs e)
         {
             if (obj != 0)
@@ -201,6 +208,7 @@ namespace WindowsFormsApplication1
             }
         }
 
+        // ЗДЕСЬ ВСЕ НОРМ РАБОТАЕТ /////////////////
         private void listBox1_MouseLeave(object sender, EventArgs e)
         {
             this.ActiveControl = null;
@@ -210,7 +218,8 @@ namespace WindowsFormsApplication1
         {
             this.ActiveControl = listBox1;
         }
-
+        
+        // СОЗДАНИЕ ДИНАМИЧЕСКИХ КАРТИНОК
         private void Form1_MouseDown_1(object sender, MouseEventArgs e)
         {
             var pos = this.PointToClient(Cursor.Position);
@@ -241,7 +250,7 @@ namespace WindowsFormsApplication1
                                 label7.Text = Convert.ToString(k);
                                 label8.Text = Convert.ToString(idx);
 
-                                PictureBox picture  = new PictureBox();
+                                PictureBox picture  = new PictureBox(); // ВМЕСТО ЭТОГО picture ДОЛЖНО БЫТЬ ЧТО-ТО ТИПО picture[i]
                                 picture.Location = new Point(dot[i + k, 1] + 33, dot[i + k, 2] - 24);
                                 Size size = new Size(51, 49);
                                 picture.Size = size;
@@ -259,7 +268,7 @@ namespace WindowsFormsApplication1
                                 //PictureBox snd = (PictureBox)sender;
                                 //int id = picture1.IndexOf(snd);
                                 //this.Controls.Remove(snd);
-                                this.Controls.Add(area[i]);
+                                //this.Controls.Add(area[i]);
                             }
                         }
                     }
@@ -297,6 +306,7 @@ namespace WindowsFormsApplication1
                     }
                 }
             }
+            // ЗДЕСЬ ДОЛЖНО БЫТЬ УДАЛЕНИЕ КАРТИНОК 
             if (e.Button == MouseButtons.Right)
             {
                 if (angle == 1 || angle == 3)
@@ -311,7 +321,7 @@ namespace WindowsFormsApplication1
                         }
                         if (Math.Abs(((dot[i + k + 1, 1] - dot[i + k, 1]) / 2) + dot[i + k, 1] - pos.X) <= 60 && Math.Abs(dot[i + k, 2] - pos.Y) <= 40)
                         {
-                            this.Controls.Add(area[0]);
+                            //this.Controls.Remove(area[0]);
                         }
                     }
                 }
