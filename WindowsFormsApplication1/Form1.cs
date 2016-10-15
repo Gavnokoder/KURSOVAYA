@@ -12,13 +12,22 @@ namespace WindowsFormsApplication1
 {
     public partial class Form1 : Form
     {
+        class SettingsPictures
+        {
+            public int indexLine { get; set; }
+            public bool type { get; set; }  //horizontal = true //vertical = true
+            public int pos { get; set; }
+        }
+        Dictionary<int, SettingsPictures> picturesDict = new Dictionary<int, SettingsPictures>();
+
 
         int obj = 0;
         int angle = 1;
         string name = "";
         ushort[,] dot = new ushort[17, 6];
-        List<PictureBox> area = new List<PictureBox>(50); // КОЛЛЕКЦИЯ
 
+        //List<PictureBox> area = new List<PictureBox>(50); // КОЛЛЕКЦИЯ
+        List<PictureBox> area = new List<PictureBox>();
         public Form1()
         {
             InitializeComponent();
@@ -244,6 +253,10 @@ namespace WindowsFormsApplication1
                             }
                             if (Math.Abs(((dot[i + k + 1, 1] - dot[i + k, 1]) / 2) + dot[i + k, 1] - pos.X) <= 60 && Math.Abs(dot[i + k, 2] - pos.Y) <= 40)
                             {
+                                foreach (var item in picturesDict)
+                                {
+                                    if (item.Value.pos == i && item.Value.type == true) return;
+                                }
                                 label5.Text = Convert.ToString(dot[i + k, 1]);
                                 label6.Text = Convert.ToString(dot[i + k + 1, 1]);
                                 label4.Text = String.Format("Область {0}", i);
@@ -254,6 +267,7 @@ namespace WindowsFormsApplication1
                                 picture.Location = new Point(dot[i + k, 1] + 33, dot[i + k, 2] - 24);
                                 Size size = new Size(51, 49);
                                 picture.Size = size;
+                                picture.MouseDown += Picture_MouseDown;
                                 this.Controls.Add(picture);
 
                                 for (int h = 0; h < angle + 1; h++) if (h == angle) picture.Load("Область_" + name + angle + ".jpg");
@@ -264,11 +278,16 @@ namespace WindowsFormsApplication1
                                 line2.Size = size2;
                                 this.Controls.Add(line2);
                                 line2.Load("Область_Линия1.jpg");
-
                                 //PictureBox snd = (PictureBox)sender;
-                                //int id = picture1.IndexOf(snd);
-                                //this.Controls.Remove(snd);
-                                //this.Controls.Add(area[i]);
+                                // int id = snd.IndexOf(snd);
+                                // this.Controls.Remove(snd);
+                                // this.Controls.Add(area[i]);
+                                int index = Controls.IndexOf(picture);
+                                picturesDict.Add(Controls.IndexOf(picture), new SettingsPictures {
+                                    indexLine = Controls.IndexOf(line2),
+                                    type = true,
+                                    pos = i
+                                });
                             }
                         }
                     }
@@ -280,6 +299,10 @@ namespace WindowsFormsApplication1
 
                             if (Math.Abs(((dot[i + 4, 2] - dot[i, 2]) / 2) + dot[i, 2] - pos.Y) <= 50 && Math.Abs(dot[i + k, 1] - pos.X) <= 40)
                             {
+                                foreach (var item in picturesDict)
+                                {
+                                    if (item.Value.pos == i && item.Value.type == false) return;
+                                }
                                 label5.Text = Convert.ToString(dot[i + k, 2]);
                                 label6.Text = Convert.ToString(dot[i + k + 4, 2]);
                                 label4.Text = String.Format("Область {0}", i);
@@ -290,6 +313,7 @@ namespace WindowsFormsApplication1
                                 picture.Location = new Point(dot[i, 1] - 24, dot[i, 2] + 35);
                                 Size size = new Size(49, 51);
                                 picture.Size = size;
+                                picture.MouseDown += Picture_MouseDown;
                                 this.Controls.Add(picture);
 
                                 for (int h = 0; h < angle + 1; h++) if (h == angle) picture.Load("Область_" + name + angle + ".jpg");
@@ -300,36 +324,35 @@ namespace WindowsFormsApplication1
                                 line1.Size = size1;
                                 this.Controls.Add(line1);
                                 line1.Load("Область_Линия2.jpg");
-
+                                picturesDict.Add(Controls.IndexOf(picture), new SettingsPictures(){
+                                    indexLine = Controls.IndexOf(line1),
+                                    type = false,
+                                    pos = i
+                                });
                             }
                         }
                     }
                 }
             }
-            // ЗДЕСЬ ДОЛЖНО БЫТЬ УДАЛЕНИЕ КАРТИНОК 
-            if (e.Button == MouseButtons.Right)
+            
+        }
+
+        //Add
+        private void Picture_MouseDown(object sender, MouseEventArgs e)
+        {
+            switch (e.Button)
             {
-                if (angle == 1 || angle == 3)
-                {
-                    for (int i = 1; i < 13; i++)
-                    {
-                        idx++;
-                        if (idx > 3)
-                        {
-                            k++;
-                            idx = 1;
-                        }
-                        if (Math.Abs(((dot[i + k + 1, 1] - dot[i + k, 1]) / 2) + dot[i + k, 1] - pos.X) <= 60 && Math.Abs(dot[i + k, 2] - pos.Y) <= 40)
-                        {
-                            //this.Controls.Remove(area[0]);
-                        }
-                    }
-                }
-                else
-                {
-
-                }
-
+                case MouseButtons.Right: 
+                    PictureBox picture = sender as PictureBox;
+                    int currentIndexPic = Controls.IndexOf(picture);
+                    SettingsPictures sets = picturesDict[currentIndexPic];
+                    Controls.RemoveAt(sets.indexLine);
+                    Controls.RemoveAt(currentIndexPic);
+                    picture.Dispose();
+                    picturesDict.Remove(currentIndexPic);
+                    break;
+                default:
+                    break;
             }
         }
     }
