@@ -12,44 +12,19 @@ namespace WindowsFormsApplication1
 {
     public partial class Form1 : Form
     {
-        class SettingsPictures
-        {
-            public int indexLine { get; set; }
-            public bool type { get; set; }  //horizontal = true //vertical = true
-            public int pos { get; set; }
-        }
-        Dictionary<int, SettingsPictures> picturesDict = new Dictionary<int, SettingsPictures>();
-
 
         int obj = 0;
         int angle = 1;
         string name = "";
         ushort[,] dot = new ushort[17, 6];
+        int[,] area = new int[13, 3];
 
-        //List<PictureBox> area = new List<PictureBox>(50); // КОЛЛЕКЦИЯ
-        List<PictureBox> area = new List<PictureBox>();
         public Form1()
         {
             InitializeComponent();
-           
             this.MouseWheel += new MouseEventHandler(MouseWheelHandler);
-           //// К О С Т И Н А      Х У Й Н Я///////////////////// 
-            //PictureBox[] area = new PictureBox[25];
-           // for (int i = 0; i < 25; i++) area[i] = new PictureBox();
-            /////////////////////////////////////////////
-
-            for (int i = 0; i < 50; i++) // КОЛЛЕКЦИЯ
-            {
-                PictureBox area = new PictureBox();
-                area.Name = i.ToString();
-                area.Size = new Size(233, 20);
-            }
         }
 
-       // private PictureBox[] area; // К О С Т И Н А     Х У Й Н Я 
-
-
-        // ЗДЕСЬ ВСЕ НОРМ РАБОТАЕТ /////////////////
         private void Form1_Shown(Object sender, EventArgs e)
         {
             // строим точки
@@ -65,11 +40,8 @@ namespace WindowsFormsApplication1
             lin.DrawLine(blackPen, 270, 560, 760, 560);
             lin.DrawLine(blackPen, 760, 560, 760, 70);
             lin.DrawLine(blackPen, 760, 70, 270, 70);
-            for (int i = 1; i < 17; i++) richTextBox1.Text += String.Format("{0} {1} {2}", i, Convert.ToString(dot[i, 1]), Convert.ToString(dot[i, 2]) + "\n");
-
         }
 
-        // ЗДЕСЬ ВСЕ НОРМ РАБОТАЕТ /////////////////
         private void Form1_Load(object sender, EventArgs e)
         {
             // Заполняем координаты x, y для каждой точки 
@@ -91,7 +63,6 @@ namespace WindowsFormsApplication1
             }
         }
 
-        // ЗДЕСЬ ВСЕ НОРМ РАБОТАЕТ /////////////////
         private void listBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
             angle = 1;
@@ -108,23 +79,23 @@ namespace WindowsFormsApplication1
                     obj = 2;
                     break;
                 case 2:
-                    name = "Резистор";
-                    pictureBox1.Load("Резистор1.jpg");
+                    name = "Провод";
+                    pictureBox1.Load("Провод1.jpg");
                     obj = 3;
                     break;
                 case 3:
-                    name = "Реостат";
-                    pictureBox1.Load("Реостат1.jpg");
+                    name = "Амперметр";
+                    pictureBox1.Load("Амперметр1.jpg");
                     obj = 4;
                     break;
                 case 4:
-                    name = "Реостат";
-                    pictureBox1.Load("Реостат1.jpg");
+                    name = "Амперметр";
+                    pictureBox1.Load("Амперметр1.jpg");
                     obj = 4;
                     break;
                 case 5:
-                    name = "Реостат";
-                    pictureBox1.Load("Реостат1.jpg");
+                    name = "Амперметр";
+                    pictureBox1.Load("Амперметр1.jpg");
                     obj = 4;
                     break;
                 case 6:
@@ -157,15 +128,9 @@ namespace WindowsFormsApplication1
                     pictureBox1.Load("Амперметр1.jpg");
                     obj = 1;
                     break;
-                case 12:
-                    name = "Амперметр";
-                    pictureBox1.Load("Амперметр1.jpg");
-                    obj = 1;
-                    break;
             }
         }
 
-        // ЗДЕСЬ ВСЕ НОРМ РАБОТАЕТ /////////////////
         private void MouseWheelHandler(object sender, System.Windows.Forms.MouseEventArgs e)
         {
             if (obj != 0)
@@ -217,7 +182,6 @@ namespace WindowsFormsApplication1
             }
         }
 
-        // ЗДЕСЬ ВСЕ НОРМ РАБОТАЕТ /////////////////
         private void listBox1_MouseLeave(object sender, EventArgs e)
         {
             this.ActiveControl = null;
@@ -227,22 +191,18 @@ namespace WindowsFormsApplication1
         {
             this.ActiveControl = listBox1;
         }
-        
-        // СОЗДАНИЕ ДИНАМИЧЕСКИХ КАРТИНОК
+
         private void Form1_MouseDown_1(object sender, MouseEventArgs e)
         {
             var pos = this.PointToClient(Cursor.Position);
-            int idx = 0;
-            int k = 0;
             if (e.Button == MouseButtons.Left)
             {
-                textBox1.Text = String.Format("({0}, {1})", pos.X, pos.Y);
-                // попадание в область
+                int idx = 0;
+                int k = 0;
                 if (obj != 0)
                 {
                     if (angle == 1 || angle == 3)
                     {
-                        label9.Text = "HORIZON";
                         for (int i = 1; i < 13; i++)
                         {
                             idx++;
@@ -251,109 +211,228 @@ namespace WindowsFormsApplication1
                                 k++;
                                 idx = 1;
                             }
-                            if (Math.Abs(((dot[i + k + 1, 1] - dot[i + k, 1]) / 2) + dot[i + k, 1] - pos.X) <= 60 && Math.Abs(dot[i + k, 2] - pos.Y) <= 40)
+                            if (area[i, 1] != 2 && area[i, 1] != 1)
                             {
-                                foreach (var item in picturesDict)
+                                if (Math.Abs(((dot[i + k + 1, 1] - dot[i + k, 1]) / 2) + dot[i + k, 1] - pos.X) <= 60 && Math.Abs(dot[i + k, 2] - pos.Y) <= 40)
                                 {
-                                    if (item.Value.pos == i && item.Value.type == true) return;
+                                        if (obj != 3)
+                                        {
+                                            if (dot[i + k, 3] != 2 && dot[i + k + 1, 3] != 2)
+                                            {
+                                                PictureBox picture = new PictureBox();
+                                                picture.Location = new Point(dot[i + k, 1] + 33, dot[i + k, 2] - 24);
+                                                Size size = new Size(51, 49);
+                                                picture.Size = size;
+                                                picture.Name = Convert.ToString("Horizon" + i);
+                                                this.Controls.Add(picture);
+                                                picture.MouseDown += Picture_MouseDown;
+
+                                                for (int h = 0; h < angle + 1; h++) if (h == angle) picture.Load("Область_" + name + angle + ".jpg");
+
+                                                Graphics lin;
+                                                lin = CreateGraphics();
+                                                Pen Bpen = new Pen(Color.Black, 2);
+                                                lin.DrawLine(Bpen, dot[i + k, 1] + 2, dot[i + k, 2] + 1, dot[i + k + 1, 1] - 1, dot[i + k + 1, 2]);
+
+                                                area[i, 1] = 2;
+
+                                                dot[i + k, 3] = 2;
+                                                dot[i + k + 1, 3] = 2;
+                                            }
+                                        }
+                                        else
+                                        {
+                                            Graphics lin;
+                                            lin = CreateGraphics();
+                                            Pen Bpen = new Pen(Color.Black, 2);
+                                            lin.DrawLine(Bpen, dot[i + k, 1] + 2, dot[i + k, 2] + 1, dot[i + k + 1, 1] - 1, dot[i + k + 1, 2]);
+
+                                            area[i, 1] = 1;
+
+                                            if (dot[i + k, 3] == 2) dot[i + k, 3] = 2;
+                                            else dot[i + k, 3] = 1;
+                                            if (dot[i + k + 1, 3] == 2) dot[i + k + 1, 3] = 2;
+                                            else dot[i + k + 1, 3] = 1;
+                                        }
+                                    
                                 }
-                                label5.Text = Convert.ToString(dot[i + k, 1]);
-                                label6.Text = Convert.ToString(dot[i + k + 1, 1]);
-                                label4.Text = String.Format("Область {0}", i);
-                                label7.Text = Convert.ToString(k);
-                                label8.Text = Convert.ToString(idx);
-
-                                PictureBox picture  = new PictureBox(); // ВМЕСТО ЭТОГО picture ДОЛЖНО БЫТЬ ЧТО-ТО ТИПО picture[i]
-                                picture.Location = new Point(dot[i + k, 1] + 33, dot[i + k, 2] - 24);
-                                Size size = new Size(51, 49);
-                                picture.Size = size;
-                                picture.MouseDown += Picture_MouseDown;
-                                this.Controls.Add(picture);
-
-                                for (int h = 0; h < angle + 1; h++) if (h == angle) picture.Load("Область_" + name + angle + ".jpg");
-
-                                PictureBox line2 = new PictureBox();
-                                line2.Location = new Point(dot[i + k, 1], dot[i + k, 2] - 2);
-                                Size size2 = new Size(122, 6);
-                                line2.Size = size2;
-                                this.Controls.Add(line2);
-                                line2.Load("Область_Линия1.jpg");
-                                //PictureBox snd = (PictureBox)sender;
-                                // int id = snd.IndexOf(snd);
-                                // this.Controls.Remove(snd);
-                                // this.Controls.Add(area[i]);
-                                int index = Controls.IndexOf(picture);
-                                picturesDict.Add(Controls.IndexOf(picture), new SettingsPictures {
-                                    indexLine = Controls.IndexOf(line2),
-                                    type = true,
-                                    pos = i
-                                });
                             }
                         }
                     }
                     else
                     {
-                        label9.Text = "VERTICAL";
                         for (int i = 1; i < 13; i++)
                         {
-
-                            if (Math.Abs(((dot[i + 4, 2] - dot[i, 2]) / 2) + dot[i, 2] - pos.Y) <= 50 && Math.Abs(dot[i + k, 1] - pos.X) <= 40)
+                            if (area[i, 2] != 1 && area[i, 2] != 2)
                             {
-                                foreach (var item in picturesDict)
+                                if (Math.Abs(((dot[i + 4, 2] - dot[i, 2]) / 2) + dot[i, 2] - pos.Y) <= 50 && Math.Abs(dot[i + k, 1] - pos.X) <= 40)
                                 {
-                                    if (item.Value.pos == i && item.Value.type == false) return;
+                                    if (obj != 3)
+                                    {
+                                        if (dot[i , 3] != 2 && dot[i + 4, 3] != 2)
+                                        {
+                                            PictureBox picture = new PictureBox();
+                                            picture.Location = new Point(dot[i, 1] - 24, dot[i, 2] + 35);
+                                            Size size = new Size(49, 51);
+                                            picture.Size = size;
+                                            picture.Name = Convert.ToString("Vertical" + i);
+                                            this.Controls.Add(picture);
+                                            picture.MouseDown += Picture_MouseDown;
+
+                                            for (int h = 0; h < angle + 1; h++) if (h == angle) picture.Load("Область_" + name + angle + ".jpg");
+
+                                            Graphics lin;
+                                            lin = CreateGraphics();
+                                            Pen Bpen = new Pen(Color.Black, 2);
+                                            lin.DrawLine(Bpen, dot[i, 1] + 1, dot[i, 2] + 1, dot[i + 4, 1] + 1, dot[i + 4, 2]);
+
+                                            area[i, 2] = 2;
+
+                                            dot[i, 3] = 2;
+                                            dot[i + 4, 3] = 2;
+                                        }
+                                    }
+                                    else
+                                    {
+                                        Graphics lin;
+                                        lin = CreateGraphics();
+                                        Pen Bpen = new Pen(Color.Black, 2);
+                                        lin.DrawLine(Bpen, dot[i, 1] + 1, dot[i, 2] + 1, dot[i + 4, 1] + 1, dot[i + 4, 2]);
+
+                                        area[i, 2] = 1;
+
+                                        if (dot[i, 3] == 2) dot[i, 3] = 2;
+                                        else dot[i, 3] = 1;
+                                        if (dot[i + 4, 3] == 2) dot[i + 4, 3] = 2;
+                                        else dot[i + 4, 3] = 1;
+                                    }
                                 }
-                                label5.Text = Convert.ToString(dot[i + k, 2]);
-                                label6.Text = Convert.ToString(dot[i + k + 4, 2]);
-                                label4.Text = String.Format("Область {0}", i);
-                                label7.Text = Convert.ToString(k);
-                                label8.Text = Convert.ToString(idx);
-
-                                PictureBox picture = new PictureBox();
-                                picture.Location = new Point(dot[i, 1] - 24, dot[i, 2] + 35);
-                                Size size = new Size(49, 51);
-                                picture.Size = size;
-                                picture.MouseDown += Picture_MouseDown;
-                                this.Controls.Add(picture);
-
-                                for (int h = 0; h < angle + 1; h++) if (h == angle) picture.Load("Область_" + name + angle + ".jpg");
-
-                                PictureBox line1 = new PictureBox();
-                                line1.Location = new Point(dot[i + k, 1] - 1, dot[i + k, 2]);
-                                Size size1 = new Size(6, 122);
-                                line1.Size = size1;
-                                this.Controls.Add(line1);
-                                line1.Load("Область_Линия2.jpg");
-                                picturesDict.Add(Controls.IndexOf(picture), new SettingsPictures(){
-                                    indexLine = Controls.IndexOf(line1),
-                                    type = false,
-                                    pos = i
-                                });
                             }
                         }
                     }
                 }
             }
-            
-        }
-
-        //Add
-        private void Picture_MouseDown(object sender, MouseEventArgs e)
-        {
-            switch (e.Button)
+            if (e.Button == MouseButtons.Right)
             {
-                case MouseButtons.Right: 
-                    PictureBox picture = sender as PictureBox;
-                    int currentIndexPic = Controls.IndexOf(picture);
-                    SettingsPictures sets = picturesDict[currentIndexPic];
-                    Controls.RemoveAt(sets.indexLine);
-                    Controls.RemoveAt(currentIndexPic);
-                    picture.Dispose();
-                    picturesDict.Remove(currentIndexPic);
-                    break;
-                default:
-                    break;
+                int idx = 0;
+                int k = 0;
+                for (int i = 1; i < 13; i++)
+                {
+                    if (Math.Abs(((dot[i + 4, 2] - dot[i, 2]) / 2) + dot[i, 2] - pos.Y) <= 60 && Math.Abs(dot[i + k, 1] - pos.X) <= 15)
+                    {
+                        if (area[i,2] == 1)
+                        {
+                            Graphics lin;
+                            lin = CreateGraphics();
+                            Pen Bpen = new Pen(Color.White, 2);
+                            lin.DrawLine(Bpen, dot[i, 1] + 1, dot[i, 2] + 3, dot[i + 4, 1] + 1, dot[i + 4, 2]);
+
+                            area[i, 2] = 0;
+
+                            if (dot[i, 3] == 2) dot[i, 3] = 2;
+                            else dot[i, 3] = 0;
+                            if (dot[i + 4, 3] == 2) dot[i + 4, 3] = 2;
+                            else dot[i + 4, 3] = 0;
+                        }
+                    }
+                }
+
+                for (int i = 1; i < 13; i++)
+                {
+                    idx++;
+                    if (idx > 3)
+                    {
+                        k++;
+                        idx = 1;
+                    }
+                    if (Math.Abs(((dot[i + k + 1, 1] - dot[i + k, 1]) / 2) + dot[i + k, 1] - pos.X) <= 60 && Math.Abs(dot[i + k, 2] - pos.Y) <= 15)
+                    {
+                        if (area[i, 1] == 1)
+                        {
+                                Graphics lin;
+                                lin = CreateGraphics();
+                                Pen Bpen = new Pen(Color.White, 2);
+                                lin.DrawLine(Bpen, dot[i + k, 1] + 2, dot[i + k, 2] + 1, dot[i + k + 1, 1] - 1, dot[i + k + 1, 2]);
+
+                                area[i, 1] = 0;
+
+                                if (dot[i + k, 3] == 2) dot[i + k, 3] = 2;
+                                else dot[i + k, 3] = 0;
+                                if (dot[i + k + 1, 3] == 2) dot[i + k + 1, 3] = 2;
+                                else dot[i + k + 1, 3] = 0;
+                        }
+                    }
+                }
             }
         }
+
+        private void Picture_MouseDown(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Right)
+            {
+                var pos = this.PointToClient(Cursor.Position);
+                PictureBox picture = sender as PictureBox;
+                int idx = 0;
+                int k = 0;
+                for (int i = 1; i < 13; i++)
+                {
+                    if (picture.Name == "Horizon" + Convert.ToString(i))
+                    {
+                        this.Controls.Remove(picture);
+                        picture.Dispose();
+                        area[i, 1] = 0;
+                    }
+                    if (picture.Name == "Vertical" + Convert.ToString(i))
+                    {
+                        this.Controls.Remove(picture);
+                        picture.Dispose();
+                        area[i, 2] = 0;
+                    }
+                    // vertical
+                    if (Math.Abs(((dot[i + 4, 2] - dot[i, 2]) / 2) + dot[i, 2] - pos.Y) <= 50 && Math.Abs(dot[i + k, 1] - pos.X) <= 40)
+                    {
+                        Graphics lin;
+                        lin = CreateGraphics();
+                        Pen Bpen = new Pen(Color.White, 2);
+                        lin.DrawLine(Bpen, dot[i, 1] + 1, dot[i, 2] + 3, dot[i + 4, 1] + 1, dot[i + 4, 2]);
+
+                        if (dot[i, 3] == 1) dot[i, 3] = 1;
+                        else dot[i, 3] = 0;
+                        if (dot[i + 4, 3] == 1) dot[i + 4, 3] = 1;
+                        else dot[i + 4, 3] = 0;
+
+                    }
+                }
+                // horizontal
+                for (int i = 1; i < 13; i++)
+                {
+                    idx++;
+                    if (idx > 3)
+                    {
+                        k++;
+                        idx = 1;
+                    }
+                    if (Math.Abs(((dot[i + k + 1, 1] - dot[i + k, 1]) / 2) + dot[i + k, 1] - pos.X) <= 60 && Math.Abs(dot[i + k, 2] - pos.Y) <= 40)
+                    {
+                        Graphics lin;
+                        lin = CreateGraphics();
+                        Pen Bpen = new Pen(Color.White, 2);
+                        lin.DrawLine(Bpen, dot[i + k, 1] + 2, dot[i + k, 2] + 1, dot[i + k + 1, 1] - 1, dot[i + k + 1, 2]);
+
+                        if (dot[i + k, 3] == 1) dot[i + k, 3] = 1;
+                        else dot[i + k, 3] = 0;
+                        if (dot[i + k + 1, 3] == 1) dot[i + k + 1, 3] = 1;
+                        else dot[i + k + 1, 3] = 0;
+                    }
+                }
+            }
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            richTextBox1.Text = "";
+            for (int i = 1; i < 17; i++) richTextBox1.Text += String.Format("{0} {1} {2} {3}", i, Convert.ToString(dot[i, 1]), Convert.ToString(dot[i, 2]), Convert.ToString(dot[i, 3]) + "\n");
+        }
     }
-    }
+}
+    

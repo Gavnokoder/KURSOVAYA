@@ -69,19 +69,13 @@ F:\Программирование\Курсовая работа\WindowsFormsAp
 F:\Программирование\Курсовая работа\WindowsFormsApplication1\WindowsFormsApplication1\obj\x86\Debug\WindowsFormsApplication1.Properties.Resources.resources
 F:\Программирование\Курсовая работа\WindowsFormsApplication1\WindowsFormsApplication1\obj\x86\Debug\GenerateResource.read.1.tlog
 F:\Программирование\Курсовая работа\WindowsFormsApplication1\WindowsFormsApplication1\obj\x86\Debug\GenerateResource.write.1.tlog
+E:\Программирование\Курсовая работа\WindowsFormsApplication1\WindowsFormsApplication1\obj\x86\Debug\WindowsFormsApplication1.exe
+E:\Программирование\Курсовая работа\WindowsFormsApplication1\WindowsFormsApplication1\obj\x86\Debug\WindowsFormsApplication1.pdb
+E:\Программирование\Курсовая работа\WindowsFormsApplication1\WindowsFormsApplication1\obj\x86\Debug\WindowsFormsApplication1.csprojResolveAssemblyReference.cache
+E:\Программирование\Курсовая работа\WindowsFormsApplication1\WindowsFormsApplication1\obj\x86\Debug\WindowsFormsApplication1.Form1.resources
+E:\Программирование\Курсовая работа\WindowsFormsApplication1\WindowsFormsApplication1\obj\x86\Debug\WindowsFormsApplication1.Properties.Resources.resources
+E:\Программирование\Курсовая работа\WindowsFormsApplication1\WindowsFormsApplication1\obj\x86\Debug\WindowsFormsApplication1.csproj.GenerateResource.Cache
+E:\Программирование\Курсовая работа\WindowsFormsApplication1\WindowsFormsApplication1\bin\Debug\WindowsFormsApplication1.exe
+E:\Программирование\Курсовая работа\WindowsFormsApplication1\WindowsFormsApplication1\bin\Debug\WindowsFormsApplication1.pdb
 C:\Users\Администратор\WindowsFormsApplication1\WindowsFormsApplication1\obj\x86\Debug\WindowsFormsApplication1.exe
 C:\Users\Администратор\WindowsFormsApplication1\WindowsFormsApplication1\obj\x86\Debug\WindowsFormsApplication1.pdb
-C:\Users\Администратор\WindowsFormsApplication1\WindowsFormsApplication1\bin\Debug\WindowsFormsApplication1.exe
-C:\Users\Администратор\WindowsFormsApplication1\WindowsFormsApplication1\bin\Debug\WindowsFormsApplication1.pdb
-C:\Users\Администратор\WindowsFormsApplication1\WindowsFormsApplication1\obj\x86\Debug\WindowsFormsApplication1.csprojResolveAssemblyReference.cache
-C:\Users\Администратор\WindowsFormsApplication1\WindowsFormsApplication1\obj\x86\Debug\WindowsFormsApplication1.Form1.resources
-C:\Users\Администратор\WindowsFormsApplication1\WindowsFormsApplication1\obj\x86\Debug\WindowsFormsApplication1.Properties.Resources.resources
-C:\Users\Администратор\WindowsFormsApplication1\WindowsFormsApplication1\obj\x86\Debug\WindowsFormsApplication1.csproj.GenerateResource.Cache
-C:\c#projects\Alexnadr\KURSOVAYA\WindowsFormsApplication1\obj\x86\Debug\WindowsFormsApplication1.exe
-C:\c#projects\Alexnadr\KURSOVAYA\WindowsFormsApplication1\obj\x86\Debug\WindowsFormsApplication1.pdb
-C:\c#projects\Alexnadr\KURSOVAYA\WindowsFormsApplication1\bin\Debug\WindowsFormsApplication1.exe
-C:\c#projects\Alexnadr\KURSOVAYA\WindowsFormsApplication1\bin\Debug\WindowsFormsApplication1.pdb
-C:\c#projects\Alexnadr\KURSOVAYA\WindowsFormsApplication1\obj\x86\Debug\WindowsFormsApplication1.csprojResolveAssemblyReference.cache
-C:\c#projects\Alexnadr\KURSOVAYA\WindowsFormsApplication1\obj\x86\Debug\WindowsFormsApplication1.Form1.resources
-C:\c#projects\Alexnadr\KURSOVAYA\WindowsFormsApplication1\obj\x86\Debug\WindowsFormsApplication1.Properties.Resources.resources
-C:\c#projects\Alexnadr\KURSOVAYA\WindowsFormsApplication1\obj\x86\Debug\WindowsFormsApplication1.csproj.GenerateResource.Cache
